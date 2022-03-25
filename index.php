@@ -5,6 +5,13 @@
 
 require_once("View/layout.php");
 ?>
+
+<style>
+    header{
+        position: relative !important;
+    }
+</style>
+
 <div class="contenido">
 
 <?php
