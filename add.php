@@ -14,22 +14,53 @@
 
                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Crear entrada  !</p>
 
-                <form class="mx-1 mx-md-4" method="post" action="signup.php">
+                <form class="mx-1 mx-md-4" method="post" action="add.php">
 
                 <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="titulo">
                     <label for="floatingInput">Titulo</label>
                     </div>
                   <div class="form-floating" style="margin-bottom: 15px;">
-                            <textarea name="contenido" class="form-control" cols="30" rows="10" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                            <textarea name="contenido" class="form-control" cols="30" rows="10" placeholder="Leave a comment here" id="floatingTextarea" name="contenido"></textarea>
                             <label for="floatingTextarea">Contenido</label>
                         </div>
                 <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="url" required>
                     <label for="floatingInput">URL de la imagen</label>
                     </div>
-                </form>
-                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                     <button type="submit" class="btn btn-primary btn-lg" name="registrar" value="1">Añadir entrada</button>
-                  </div>
+                  </div> 
+                </form>
+                
 </section>
+<div style="width: 90%; z-index: 200; display:block; position: absolute; top:100px;  left: 25px">
+<?php
+
+if (isset($_POST['titulo'])) {
+  try {
+    foreach ($_POST as $a){
+          if ($a == " ") {
+            throw new Exception();
+          }
+        }
+    $conexion = db::getConnect();
+
+    $stmt = $conexion->prepare("INSERT INTO entradas (titulo, contenido, imagen, fecha) VALUES (:titulo, :contenido, :url, fechaHoy())");
+    $stmt->bindParam(':contenido', $_POST['contenido']);
+    $stmt->bindParam(':titulo', $_POST['titulo']);
+    $stmt->bindParam(':url', $_POST['url']);
+    $stmt->execute();
+
+    echo '<p style="color: green;">La entrada ha sido añadida con exito!</p>';
+  }catch(Exception $e){
+    echo '<p style="color: red;">Compruebe los datos y vuelve a intentarlo'.$e.'</p>';
+    
+  }
+    
+  
+}
+
+
+?>
+</div>
