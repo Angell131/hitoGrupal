@@ -41,7 +41,8 @@
 							echo('<li class="nav-item pl-1"><a class="nav-link" href="index.php?web='.$a['id'].'"><i class="fa fa-home fa-fw mr-1"></i>'.$a['titulo'].'</a></li>');
 						}
 						if (isset($_SESSION['usuario'])) {
-							echo('<li class="nav-item pl-1"><a class="nav-link" href="add.php" style="color: red"	><i class="fa fa-plus" style="color: red"></i> Añadir entrada </a></li>');
+							echo('<li class="nav-item pl-1"><a class="nav-link" href="add.php" style="color: green"	><i class="fa fa-plus" style="color: green"></i> Añadir entrada </a></li>');
+							echo('<li class="nav-item pl-1"><a class="nav-link" href="delete.php" style="color: red"	><i class="fa fa-minus" style="color: red"></i> Eliminar entrada </a></li>');
 						}
 					?>
 					
@@ -62,7 +63,6 @@
 	</nav>
 	<!--# Navbar #-->
 	</header>
-</body>
-</html>
+
 
 
