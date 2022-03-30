@@ -27,24 +27,14 @@ require_once("View/layout.php");
 if (isset($_SESSION['usuario'])) {
     if (isset($_GET['web'])) {
         $id = $_GET['web'];
-        try {
-            $stmt = $conexion->prepare("SELECT titulo, contenido, fecha, imagen FROM entradas WHERE id = :id");
-            $stmt->bindValue("id", $id);
-            $stmt->execute();
-            foreach($stmt->fetchAll() as $a){
-                echo('<div id="titulo"><h2>'.$a['titulo'].' <button type="button" onclick="editar(0)" class="btn btn-secondary">Editar</button></h2></div>');
-                echo('<div id="contenido"><p>'.$a['contenido'].' <button type="button" onclick="editar(1)" class="btn btn-secondary">Editar</button></p></div>');
-                echo('<div id="imagen"><img src="'.$a['imagen'].'" > <br><button type="button" onclick="editar(2)" class="btn btn-secondary"">Editar</button></div>');
-            }
-        } catch (Exception $e) {
-            $stmt = $conexion->prepare("SELECT titulo, contenido, fecha, imagen FROM entradas WHERE id = 1");
-            $stmt->execute();
-            foreach($stmt->fetchAll() as $a){
-                echo('<div id="titulo"><h2>'.$a['titulo'].' <button type="button" onclick="editar(0)" class="btn btn-secondary">Editar</button></h2></div>');
-                echo('<div id="contenido"><p>'.$a['contenido'].' <button type="button" onclick="editar(1)" class="btn btn-secondary">Editar</button></p></div>');
-                echo('<div id="imagen"><img src="'.$a['imagen'].'" > <br><button type="button" onclick="editar(2)" class="btn btn-secondary"">Editar</button></div>');
-            }
-        }
+        $stmt = $conexion->prepare("SELECT titulo, contenido, fecha, imagen FROM entradas WHERE id = :id");
+        $stmt->bindValue("id", $id);
+        $stmt->execute();
+        foreach($stmt->fetchAll() as $a){
+            echo('<div id="titulo"><h2>'.$a['titulo'].' <button type="button" onclick="editar(0)" class="btn btn-secondary">Editar</button></h2></div>');
+            echo('<div id="contenido"><p>'.$a['contenido'].' <button type="button" onclick="editar(1)" class="btn btn-secondary">Editar</button></p></div>');
+            echo('<div id="imagen"><img src="'.$a['imagen'].'" > <br><button type="button" onclick="editar(2)" class="btn btn-secondary"">Editar</button></div>');
+        }  
         
     }else{
         $stmt = $conexion->prepare("SELECT titulo, contenido, fecha, imagen FROM entradas WHERE id = 1");
@@ -113,6 +103,8 @@ if (isset($_SESSION['usuario'])) {
         }
     }
 
+    // guardar('titulo', 1)
+
     function guardar(v, i) {
         if (v == 'titulo') {
             v = document.getElementById('titulo-f').value;
@@ -128,7 +120,7 @@ if (isset($_SESSION['usuario'])) {
                         document.getElementById('titulo').innerHTML = '<h2>' + data +' <button type="button" onclick="editar(0)" class="btn btn-secondary">Editar</button></h2>'
              });
         }
-        if (v == 'contenido') {
+        else if (v == 'contenido') {
             v = document.getElementById('floatingTextarea2').value;
             axios({
                     method: 'post',
@@ -142,7 +134,7 @@ if (isset($_SESSION['usuario'])) {
                         document.getElementById('contenido').innerHTML = '<p>' + data +' <button type="button" onclick="editar(1)" class="btn btn-secondary">Editar</button></p>'
              });
         }
-        if (v == 'imagen') {
+        else if (v == 'imagen') {
             v = document.getElementById('imagen-f').value;
             axios({
                     method: 'post',

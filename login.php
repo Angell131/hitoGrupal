@@ -40,10 +40,14 @@
         $stmt->bindValue('usuario', $_POST["usuario"]);
         $stmt->bindValue('password', $_POST["password"]);
         $stmt->execute();
-
         $row = $stmt->fetch();
-        $_SESSION['usuario'] = $row['username'];
-        header("Location: index.php");
+        if ($row != False) {
+          $_SESSION['usuario'] = $row['username'];
+          header("Location: index.php");
+        }else{
+          echo '<p style="color: red;">Compruebe los datos y vuelve a intentarlo</p>';
+        }
+        
 
     }
 ?>
